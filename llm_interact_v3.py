@@ -47,3 +47,12 @@ def song_retrieve(links):
 
     # Run the chain
     return chain.invoke({"links": links, "titles": titles})
+
+
+links = [
+    "https://www.youtube.com/watch?v=l6ev1lGq0B4",
+    "https://www.reddit.com/r/AskReddit/comments/jdvj55/what_do_you_do_to_cheer_yourself_when_youre_sad/",
+    "https://www.reddit.com/r/AskReddit/comments/3aosor/redditors_who_are_feeling_a_bit_sad_right_now/",
+]
+
+print(song_retrieve(links))
