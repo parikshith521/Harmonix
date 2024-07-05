@@ -1,0 +1,10 @@
+{
+  "name": "HarmoniX",
+  "version": "1.0",
+  "description": "Harmonix is a Google Chrome Extension which plays Spotify songs according to the sentiment of the user determined on the basis of the websites user accessed.",
+  "permissions": ["history"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3
+}
