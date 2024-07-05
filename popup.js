@@ -68,14 +68,19 @@ function getHistory(divName) {
         const url = historyItems[i].url;
         urlList.push(url);
       }
-      getSong(urlToCount);
+      getSong(urlList);
 
     }
   );
 
   const getSong = (urlList) => {
 
-    let data = urlList.slice(0,min(5,urlToCount.length));
+    let data = [];
+
+    if(urlList.length >= 6) {
+      data = urlList.slice(0,5);
+    }
+    else data = urlList.slice(0,urlList.length);
 
     let song = [" "," "," ", " "];
 
