@@ -34,6 +34,9 @@ def song_retrieve(links):
     titles = []
     for i in links:
         titles.append(data_extractor(i))
+
+    print("TITLES: ", titles)
+
     # Define a prompt
     with open("prompt_v3.txt", "r") as f:
         prompt_template = f.read()
