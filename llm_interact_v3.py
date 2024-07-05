@@ -4,22 +4,29 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-import requests
-import re
+from requests import get as requests_get
+from re import compile, IGNORECASE, DOTALL
 
 # Get the API key from the .env file
-import os
+from os import environ
 from dotenv import load_dotenv
 
 load_dotenv()
-os.environ["LANGCHAIN_TRACING_V2"] = "True"
+environ["LANGCHAIN_TRACING_V2"] = "True"
 
 
 # Defining the data extractor function
 def data_extractor(link):
-    html_doc = requests.get(link).text
-    regex = re.compile("<title>(.*?)</title>", re.IGNORECASE | re.DOTALL)
-    return regex.search(html_doc).group(1)
+    html_doc = requests_get(link).text
+    regex = compile("<title>(.*?)</title>", IGNORECASE | DOTALL)
+    regex2 = compile("<h1>(.*?)</h1>", IGNORECASE | DOTALL)
+    try:
+        return regex.search(html_doc).group(1) + regex2.search(html_doc).group(1)
+    except:
+        try:
+            return regex.search(html_doc).group(1)
+        except:
+            return "No title found"
 
 
 # Get the genres and moods according to the user browsing history
