@@ -6,6 +6,8 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.docstore.document import Document
 from langchain_community.document_loaders import WebBaseLoader
+import requests
+from bs4 import BeautifulSoup
 
 
 # Get the API key from the .env file
@@ -18,42 +20,37 @@ os.environ["LANGCHAIN_TRACING_V2"] = "True"
 
 # Defining the data extractor function
 def data_extractor(link):
-    loader = WebBaseLoader(link)
-    docs = loader.load()
-    return docs
+    html_doc = requests.get(link).text
+    soup = BeautifulSoup(html_doc, "lxml")
+    return soup.title.text
 
 
 # Define a sentiment analysis function
 def sentiment(links):
     summ_data = []
-    # Define the llm model and the chain
+
+    # Define the llm model
     llm = ChatGoogleGenerativeAI(temperature=0, model="gemini-pro")
 
     # Define prompt
-    prompt_template = """Write a concise summary in less than 10 words of the following:
-    "{text}"
+    prompt_template = """Write a concise summary in less than 25 words regarding what the user is feeling after visiting the last few websites whose links and titles are given below:
+    Links: "{links}"
+    Titles: "{titles}"
     CONCISE SUMMARY:"""
-    prompt = PromptTemplate.from_template(prompt_template)
+    prompt = PromptTemplate(
+        input_variables=["links", "titles"],
+        template=prompt_template,
+    )
 
     # Define LLM chain
     chain = prompt | llm | StrOutputParser()
 
-    # Extract data from each of the links and summarise it
-    with open("summarised_text.txt", "w") as f:
-        for link in links:
-            docs = data_extractor(link)
-            # Summarize the data and append it to the list
-            result = chain.invoke(docs)
-            f.write(result)
-            f.write("\n\n")
-    with open("summarised_text.txt", "r") as s:
-        with open("summariser_prompt.txt", "r") as f:
-            prompt_template2 = f.read()
-            prompt2 = PromptTemplate(
-                input_variables=["input"], template=prompt_template2
-            )
-            chain2 = prompt2 | llm | StrOutputParser()
-            return chain2.invoke(s.read())
+    # Extract the titles
+    titles = []
+    for i in links:
+        titles.append(data_extractor(i))
+    # Extract sentiments from user browsing history
+    return chain.invoke({"links": links, "titles": titles})
 
 
 # Get the genres and moods according to the user browsing history
