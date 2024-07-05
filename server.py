@@ -22,27 +22,8 @@ def handle_data():
 
     data = request.get_json()
 
-    print("DATA RECEIVED: ")
-    print(data)
-
-    #happy_model=HappyTextClassification(model_type='Distilbert',model_name='bhadresh-savani/distilbert-base-uncased-emotion',num_labels=6)
-
-
-    # finaltext = ""
-
-    # for url in data:
-    #     url = data[0]
-    #     r = requests.get(url)
-    #     html_doc = r.text
-    #     soup=BeautifulSoup(html_doc,"html.parser")
-    #     text=soup.get_text()
+    print("DATA RECEIVED: ", data)
   
-
-    # pred = happy_model.classify_text(finaltext)
-    # usermood =  pred.label
-
-    # print(usermood)
-
     usermood = song_retrieve(data)
     
     token = call.get_token()
