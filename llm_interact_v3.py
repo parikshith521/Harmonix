@@ -1,14 +1,11 @@
 # Importing everything necessary
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
-from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.docstore.document import Document
-from langchain_community.document_loaders import WebBaseLoader
-import requests
-from bs4 import BeautifulSoup
 
+import requests
+import re
 
 # Get the API key from the .env file
 import os
@@ -21,8 +18,8 @@ os.environ["LANGCHAIN_TRACING_V2"] = "True"
 # Defining the data extractor function
 def data_extractor(link):
     html_doc = requests.get(link).text
-    soup = BeautifulSoup(html_doc, "lxml")
-    return soup.title.text
+    regex = re.compile("<title>(.*?)</title>", re.IGNORECASE | re.DOTALL)
+    return regex.search(html_doc).group(1)
 
 
 # Get the genres and moods according to the user browsing history
