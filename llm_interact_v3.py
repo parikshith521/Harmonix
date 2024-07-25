@@ -4,15 +4,15 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-import requests
-import re
+from requests import get as requests_get
+from re import compile, IGNORECASE, DOTALL
 
 # Get the API key from the .env file
-import os
+from os import environ
 from dotenv import load_dotenv
 
 load_dotenv()
-os.environ["LANGCHAIN_TRACING_V2"] = "True"
+environ["LANGCHAIN_TRACING_V2"] = "True"
 
 
 # Defining the data extractor function
@@ -45,3 +45,12 @@ def song_retrieve(links):
 
     # Run the chain
     return chain.invoke({"links": links, "titles": titles})
+
+
+links = [
+    "https://www.youtube.com/watch?v=l6ev1lGq0B4",
+    "https://www.reddit.com/r/AskReddit/comments/jdvj55/what_do_you_do_to_cheer_yourself_when_youre_sad/",
+    "https://www.reddit.com/r/AskReddit/comments/3aosor/redditors_who_are_feeling_a_bit_sad_right_now/",
+]
+
+print(song_retrieve(links))
