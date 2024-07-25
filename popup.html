@@ -1,59 +1,69 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Recently Typed URLs</title>
-		<style>
+
+<head>
+	<title>Recently Typed URLs</title>
+	<style>
 		* {
-		margin: 2px;
-		padding: 2px;
+			margin: 2px;
+			padding: 2px;
 		}
+
 		a {
-		text-decoration: none;
-		color: inherit;
+			text-decoration: none;
+			color: inherit;
 		}
+
 		body {
-		min-width: 450px;
-		background-color: #1DB954;
+			min-width: 450px;
+			background-color: #1DB954;
 		}
+
 		.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		font-size: 1rem;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 1rem;
 		}
-		#typedUrl_div {
 
-		font-family: Verdana, Geneva, Tahoma, sans-serif;
-		font-size: 1rem;
+		#recommendation {
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			font-size: 1rem;
 
-		display: flex;
-		align-items: center;
+			display: flex;
+			align-items: center;
 
 		}
+
 		.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
-		.songcover {
-		height: 80px;
-		width: 80px;
-		padding: 10px;
+
+		.song_cover {
+			height: 80px;
+			width: 80px;
+			padding: 10px;
 		}
+
 		.song_name {
-		font-weight: bold;
+			font-weight: bold;
 		}
-		</style>
-	</head>
+	</style>
+</head>
 
-	<body>
+<body>
 
-		<div class="content">
-			<p>Here's What We Recommend</p>
-			<a href="" id="songlink"><div id="typedUrl_div"></div></a>
-		</div>
+	<div class="content">
+		<p>Here's What We Recommend</p>
+		<a href="" id="songlink">
+			<div id="recommendation"></div>
+		</a>
+	</div>
 
-		<script src="popup.js"></script>
+	<script type="module" src="popup.js"></script>
 
-	</body>
+</body>
+
 </html>

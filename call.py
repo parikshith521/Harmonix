@@ -37,12 +37,9 @@ def get_seeds(token, mood, seedTracks, seedArtists):
     query_url = url + query
     result = get(query_url, headers=headers)
     json_result = json.loads(result.content)["tracks"]["items"]
-    
 
     for item in json_result:
         seedTracks.append(item["id"])
-        for artist in item["artists"]:
-            seedArtists.append(artist["id"])
 
 
 def get_recommendation(token, seedTracks):
@@ -50,10 +47,9 @@ def get_recommendation(token, seedTracks):
     headers = get_auth_header(token)
 
     track = random.choice(seedTracks)
-
     query = f"?limit=5&seed_tracks={track}"
-
     query_url = url + query
+    
     result = get(query_url, headers=headers)
     json_result = json.loads(result.content)["tracks"]
 
@@ -62,25 +58,11 @@ def get_recommendation(token, seedTracks):
     song_img_src = track["album"]["images"][2]["url"]
     song_url = track["external_urls"]["spotify"]
     song_name = track["name"]
-    song_artists = []
-
-    for artists in track["artists"]:
-        song_artists.append(artists["name"])
-
+    song_artist = track["artists"][0]["name"]
     
-    song = [song_name, song_artists[0], song_url, song_img_src]
+    song = [song_name, song_artist, song_url, song_img_src]
     return song
 
-
-token = get_token();
-mood = "Sadness and Sorrow"
-seedTracks = []
-seedArtists = []
-get_seeds(token,mood,seedTracks,seedArtists)
-res = get_recommendation(token,seedTracks)
-
-
-print(res)
 
 
 

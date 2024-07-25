@@ -17,18 +17,20 @@ os.environ["LANGCHAIN_TRACING_V2"] = "True"
 
 # Defining the data extractor function
 def data_extractor(link):
-    html_doc = requests.get(link).text
-    regex = re.compile("<title>(.*?)</title>", re.IGNORECASE | re.DOTALL)
-    return regex.search(html_doc).group(1)
+    try:
+        html_doc = requests.get(link).text
+        regex = re.compile("<title>(.*?)</title>", re.IGNORECASE | re.DOTALL)
+        return regex.search(html_doc).group(1)
+    except:
+        return ""
 
 
 # Get the genres and moods according to the user browsing history
 def song_retrieve(links):
+    
     titles = []
     for i in links:
         titles.append(data_extractor(i))
-
-    print("TITLES: ", titles)
 
     # Define a prompt
     with open("prompt_v3.txt", "r") as f:
