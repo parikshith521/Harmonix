@@ -11,6 +11,11 @@ Harmonix is a Google Chrome Extension which plays Spotify songs according to the
 
 To run the model, `.env` must be present locally with the API key to Google Gemini Pro.
 
+## PREVIEW
+![image](https://github.com/user-attachments/assets/42120ef6-c2e4-4a8e-88ee-fe826ffc9848)
+
+
+
 ## Collaborators
-1. BR Parikshit (frontend)
-2. Samarth K J (backend)
+1. BR Parikshith Prasad
+2. Samarth K J 
